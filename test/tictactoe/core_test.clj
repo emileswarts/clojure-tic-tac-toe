@@ -23,5 +23,7 @@
 (deftest game-progress-test
   (testing "Not over with empty board"
     (is (= (game-progress ["" "" "" "" "" "" "" "" ""]) "not-over")))
-  (testing "Not over with empty board"
-    (is (= (game-progress ["X" "O" "X" "O" "X" "O" "O" "X" "O"]) "draw"))))
+  (testing "Draw with full board"
+    (is (= (game-progress ["X" "O" "X" "O" "X" "O" "O" "X" "O"]) "draw")))
+  (testing "Win for X"
+    (is (= (game-progress ["X" "X" "X" "O" "O" "" "" "" ""]) "X Wins"))))
