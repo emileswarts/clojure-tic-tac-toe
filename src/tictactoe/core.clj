@@ -5,8 +5,14 @@
   []
   (println "Hello, World!"))
 
-(defn big-old-cheese
+(defn game-board
   ([board move mark]
   (assoc board (- move 1) mark))
   ([]
   ["" "" "" "" "" "" "" "" ""]))
+
+(defn game-progress
+  [board]
+  (cond
+    (every? clojure.string/blank? board) "not-over"
+    :else "draw"))

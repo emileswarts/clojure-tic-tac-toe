@@ -2,27 +2,26 @@
   (:require [clojure.test :refer :all]
             [tictactoe.core :refer :all]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 1 1))))
-
 (deftest emgty-game-state-test
   (testing "Renders an empty grid"
-    (is (= (big-old-cheese)
+    (is (= (game-board)
            ["" "" "" "" "" "" "" "" ""]))))
 
 (deftest game-state-with-one-item
   (testing "Renders a grid with one item on it"
-    (is (= (big-old-cheese ["" "" "" "" "" "" "" "" ""] 5 "X" )
+    (is (= (game-board ["" "" "" "" "" "" "" "" ""] 5 "X" )
            ["" "" "" "" "X" "" "" "" ""]))))
 
-
-(deftest game-state-with-one-item
+(deftest game-state-with-two-items
  (testing "Renders a grid with two items on it"
-   (is (= (big-old-cheese ["" "" "" "" "X" "" "" "" ""] 1 "O" )
+   (is (= (game-board ["" "" "" "" "X" "" "" "" ""] 1 "O" )
           ["O" "" "" "" "X" "" "" "" ""]))))
 
-(deftest game-state-with-one-item
-  (testing "Renders a grid with one item on it"
-    (is (= (big-old-cheese ["" "" "" "" "" "" "" "" ""] 5 )
-           ["" "" "" "" "X" "" "" "" ""]))))
+
+; WinnerX, WinnerO, Draw, NotOver
+
+(deftest game-progress-test
+  (testing "Not over with empty board"
+    (is (= (game-progress ["" "" "" "" "" "" "" "" ""]) "not-over")))
+  (testing "Not over with empty board"
+    (is (= (game-progress ["X" "O" "X" "O" "X" "O" "O" "X" "O"]) "draw"))))
