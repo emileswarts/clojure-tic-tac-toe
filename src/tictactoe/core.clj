@@ -23,6 +23,9 @@
 
 (defn cpu-move
   [board current-player]
-  (first (map #((cond (winning-board? (game-board board %1 current-player) current-player) :else %1) [1 2 3 4 5 6 7 8 9])))
+  (first (map #((cond
+                  (winning-board? (game-board board %1 current-player) current-player)
+                  :else %1)
+                [1 2 3 4 5 6 7 8 9])))
 
 (defn -main "Play the Game" [] (game-board))
