@@ -70,3 +70,28 @@
 
   (testing "Valid moves on a full board"
     (is (= (valid-moves ["O" "O" "X" "X" "X" "X" "X" "O" "X"]) []))))
+
+(deftest gui
+  (testing "Rendering an empty board"
+    (is
+      (=
+        (render ["" "" "" "" "" "" "" "" ""])
+        "-------------\n|   |   |   |\n-------------\n|   |   |   |\n-------------\n|   |   |   |\n-------------")))
+
+  (testing "Rendering a board with a value in the first cell"
+    (is
+      (=
+        (render ["X" "" "" "" "" "" "" "" ""])
+        "-------------\n| X |   |   |\n-------------\n|   |   |   |\n-------------\n|   |   |   |\n-------------")))
+
+  (testing "Rendering a board with multiple values"
+    (is
+      (=
+        (render ["X" "" "" "" "O" "" "" "" ""])
+        "-------------\n| X |   |   |\n-------------\n|   | O |   |\n-------------\n|   |   |   |\n-------------")))
+
+  (testing "Rendering a board with all the cells filled"
+    (is
+      (=
+        (render ["X" "X" "X" "X" "O" "X" "X" "X" "X"])
+        "-------------\n| X | X | X |\n-------------\n| X | O | X |\n-------------\n| X | X | X |\n-------------"))))

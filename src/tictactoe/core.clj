@@ -1,4 +1,5 @@
-(ns tictactoe.core)
+(ns tictactoe.core
+  (use [clojure.string :only (join)]))
 
 (defn- opponent
   [current-player]
@@ -20,6 +21,27 @@
                       [1 4 7]
                       [2 4 6]])
 
+(defn- box
+  [cell]
+  (str
+    " "
+    (cond (= cell "") " " :else cell)
+    " |"))
+
+(defn row
+  [cells]
+  (str
+    "-------------\n|"
+    (join "" (map #(box %1) cells))
+    "\n"))
+
+(defn render
+  [board]
+  (str
+    (row (subvec board 0 3))
+    (row (subvec board 3 6))
+    (row (subvec board 6 9))
+    "-------------"))
 
 (defn winning-board?
   [board current-player]
