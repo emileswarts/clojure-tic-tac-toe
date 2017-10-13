@@ -21,11 +21,13 @@
     (some clojure.string/blank? board) "not-over"
     :else "draw"))
 
+(defn available-moves
+  [board]
+  (remove nil? (map-indexed (fn [index item] (if (= "" item) (+ 1 index))) board)))
+
 (defn cpu-move
   [board current-player]
-  (first (map #((cond
-                  (winning-board? (game-board board %1 current-player) current-player)
-                  :else %1)
-                [1 2 3 4 5 6 7 8 9])))
+  (first (remove nil? (map #(cond
+                 (winning-board? (game-board board %1 current-player) current-player) %1) (available-moves board)))))
 
 (defn -main "Play the Game" [] (game-board))

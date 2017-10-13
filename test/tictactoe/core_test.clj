@@ -43,4 +43,24 @@
   (testing "Winning on the second square"
    (is (= (cpu-move ["O" "" "O" "" "" "" "" "" ""] "O") 2 )))
 
+  (testing "No winning moves available"
+   (is (= (cpu-move ["" "" "O" "" "" "" "" "" ""] "O") nil )))
+
+  (testing "Winning by going diagonally"
+   (is (= (cpu-move [
+                     "O" "" ""
+                     "" "O" ""
+                     "" "" ""
+                     ] "O") 9)))
+)
+
+(deftest cpu-available-moves-test
+  (testing "It finds one available move"
+   (is (= (available-moves ["" "O" "O"]) [1])))
+
+ (testing "It finds two available move"
+   (is (= (available-moves ["" "" "O"]) [1 2])))
+
+ (testing "It finds no available move"
+   (is (= (available-moves ["X" "X" "O"]) [])))
 )
