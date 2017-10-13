@@ -41,33 +41,35 @@
   (filter #(= (get board (- %1 1)) "")
     [1 2 3 4 5 6 7 8 9]))
 
-(defn- weight-of-best-intermediate-move
-  [board player is-current-player weight]
-
-  (if is-current-player
-    (game-board board (cpu-move board player) player) (+ weight (weight-of-next-move board current-player))
-    (game-board board (cpu-move board player) player) (- weight (weight-of-next-move board current-player)))
-
-  (weight-of-best-intermediate-move board (opponent player) (not is-current-player)))
-
-(defn- weight-of-next-move
-  [board current-player]
-  #(cond
-    (winning-board?
-      (game-board board %1 current-player)
-      current-player)
-    2
-    (winning-board?
-      (game-board board %1 (opponent current-player))
-      (opponent current-player))
-    1
+(defn best-case
+  [player move board is-current-player depth]
+  (cond
+    (and (winning-board? (game-board board move player) player) is-current-player) (- 10 depth)
+    (and (winning-board? (game-board board move player) player) (not is-current-player)) (- depth 10)
+    (= [] (valid-moves board)) 0
     :else
-    0))
+      (cond
+        is-current-player
+          (apply min
+            (map
+              #(best-case (opponent player) %1 (game-board board move player) (not is-current-player) (+ 1 depth))
+              (valid-moves (game-board board move player))))
+        :else
+          (apply max
+            (map
+              #(best-case (opponent player) %1 (game-board board move player) (not is-current-player) (+ 1 depth))
+              (valid-moves (game-board board move player)))))))
+
+(defn- value-of-move
+  [board player]
+  #(cond
+    (winning-board? (game-board board %1 player) player) 10
+    :else 0))
 
 (defn cpu-move
   [board current-player]
   (apply max-key
-    (weight-of-next-move board current-player)
+    #(best-case current-player %1 board true 0)
     (valid-moves board)))
 
 (defn -main "Play the Game" [] (game-board))
