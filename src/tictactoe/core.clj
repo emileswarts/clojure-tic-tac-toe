@@ -82,16 +82,27 @@
               #(best-case (opponent player) %1 (game-board board move player) (not is-current-player) (+ 1 depth))
               (valid-moves (game-board board move player)))))))
 
-(defn- value-of-move
-  [board player]
-  #(cond
-    (winning-board? (game-board board %1 player) player) 10
-    :else 0))
-
 (defn cpu-move
   [board current-player]
   (apply max-key
     #(best-case current-player %1 board true 0)
     (valid-moves board)))
 
-(defn -main "Play the Game" [] (game-board))
+; step ->
+;   render()
+;   if game.finished? ->
+;     die()
+;   else ->
+;     ask()
+;     play_cpu()
+;     step()
+
+(defn player-move
+  []
+  (read-line))
+
+(defn step
+  [board]
+  (game-board board (player-move) (cpu-move (game-board board (player-move) "0") "X")) "X")
+;
+; (defn -main "Play the Game" [] (game-board))
