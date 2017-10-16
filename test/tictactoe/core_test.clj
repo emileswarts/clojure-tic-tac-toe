@@ -5,15 +5,30 @@
 (deftest game
   (testing "Renders an empty grid"
     (is (= (game-board)
-           ["" "" "" "" "" "" "" "" ""])))
+           [
+            "" "" ""
+            "" "" ""
+            "" "" ""
+            ])))
 
   (testing "Renders a grid with one item on it"
-    (is (= (game-board ["" "" "" "" "" "" "" "" ""] 5 "X" )
-           ["" "" "" "" "X" "" "" "" ""])))
+    (is (= (game-board [
+                        "" "" ""
+                        "" "" ""
+                        "" "" ""
+                        ] 5 "X" )
+           [
+            "" "" ""
+            "" "X" ""
+            "" "" ""
+            ])))
 
  (testing "Renders a grid with two items on it"
    (is (= (game-board ["" "" "" "" "X" "" "" "" ""] 1 "O" )
-          ["O" "" "" "" "X" "" "" "" ""])))
+          [
+           "O" "" ""
+           "" "X" ""
+           "" "" ""])))
 
   (testing "Not over with empty board"
     (is (= (game-progress ["" "" "" "" "" "" "" "" ""]) "not-over")))
