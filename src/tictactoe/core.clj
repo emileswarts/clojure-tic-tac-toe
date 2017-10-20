@@ -63,24 +63,27 @@
   (filter #(= (get board (- %1 1)) "")
     [1 2 3 4 5 6 7 8 9]))
 
+(defn player-would-win?
+  [board move player]
+  (winning-board? (game-board board move player) player))
+
+(defn possible-game-weightings
+  [best-case-fn player board move depth is-current-player]
+  (map
+    #(best-case-fn (opponent player) %1 (game-board board move player) (not is-current-player) (+ 1 depth))
+    (valid-moves (game-board board move player))))
+
 (defn best-case
   [player move board is-current-player depth]
   (cond
-    (and (winning-board? (game-board board move player) player) is-current-player) (- 10 depth)
-    (and (winning-board? (game-board board move player) player) (not is-current-player)) (- depth 10)
+    (and (player-would-win? board move player) is-current-player) (- 10 depth)
+    (and (player-would-win? board move player) (not is-current-player)) (- depth 10)
     (= [] (valid-moves board)) 0
     :else
-      (cond
-        is-current-player
-          (apply min
-            (map
-              #(best-case (opponent player) %1 (game-board board move player) (not is-current-player) (+ 1 depth))
-              (valid-moves (game-board board move player))))
-        :else
-          (apply max
-            (map
-              #(best-case (opponent player) %1 (game-board board move player) (not is-current-player) (+ 1 depth))
-              (valid-moves (game-board board move player)))))))
+      (let [weightings (possible-game-weightings best-case player board move depth is-current-player)]
+        (cond
+          is-current-player (apply min weightings)
+          :else (apply max weightings)))))
 
 (defn cpu-move
   [board current-player]
