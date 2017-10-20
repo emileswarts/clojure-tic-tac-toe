@@ -91,21 +91,35 @@
     #(best-case current-player %1 board true 0)
     (valid-moves board)))
 
-; step ->
-;   render()
-;   if game.finished? ->
-;     die()
-;   else ->
-;     ask()
-;     play_cpu()
-;     step()
-
 (defn player-move
-  []
-  (read-line))
+  [board]
+  (Integer. (read-line)))
 
 (defn step
   [board]
-  (game-board board (player-move) (cpu-move (game-board board (player-move) "0") "X")) "X")
-;
-; (defn -main "Play the Game" [] (game-board))
+  (println (render board))
+  (if (= (game-progress board) "not-over")
+    (let [new-board (game-board board (player-move) "X")]
+      (step (game-board new-board (cpu-move new-board "O") "O")))
+    (print "game over")))
+
+(defn step
+  [board current-player-piece opponent-piece current-player-move opponent-move]
+  (println (render board))
+  (if (= (game-progress board) "not-over")
+    (step
+      (game-board board (current-player-move board) current-player-piece)
+      opponent-piece
+      current-player-piece
+      opponent-move
+      current-player-move)
+    (println "game over")))
+
+(defn -main "Play the Game"
+  []
+  (step
+    (game-board)
+    "X"
+    "O"
+    #(player-move %1)
+    #(cpu-move %1 "O")))
