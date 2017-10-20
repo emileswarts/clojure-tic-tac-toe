@@ -68,21 +68,21 @@
   (winning-board? (game-board board move player) player))
 
 (defn possible-game-weightings
-  [best-case-fn player board move depth is-current-player]
+  [best-case-fn player board move depth is-maximising-player]
   (map
-    #(best-case-fn (opponent player) %1 (game-board board move player) (not is-current-player) (+ 1 depth))
+    #(best-case-fn (opponent player) %1 (game-board board move player) (not is-maximising-player) (+ 1 depth))
     (valid-moves (game-board board move player))))
 
 (defn best-case
-  [player move board is-current-player depth]
+  [player move board is-maximising-player depth]
   (cond
-    (and (player-would-win? board move player) is-current-player) (- 10 depth)
-    (and (player-would-win? board move player) (not is-current-player)) (- depth 10)
+    (and (player-would-win? board move player) is-maximising-player) (- 10 depth)
+    (and (player-would-win? board move player) (not is-maximising-player)) (- depth 10)
     (= [] (valid-moves board)) 0
     :else
-      (let [weightings (possible-game-weightings best-case player board move depth is-current-player)]
+      (let [weightings (possible-game-weightings best-case player board move depth is-maximising-player)]
         (cond
-          is-current-player (apply min weightings)
+          is-maximising-player (apply min weightings)
           :else (apply max weightings)))))
 
 (defn cpu-move
