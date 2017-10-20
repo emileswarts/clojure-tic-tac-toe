@@ -104,16 +104,19 @@
     (print "game over")))
 
 (defn step
-  [board current-player-piece opponent-piece current-player-move opponent-move]
-  (println (render board))
-  (if (= (game-progress board) "not-over")
+  [board current-player-piece opponent-piece current-player-move opponent-move game-over? present-board on-game-over]
+  (present-board board)
+  (if (game-over? board)
     (step
       (game-board board (current-player-move board) current-player-piece)
       opponent-piece
       current-player-piece
       opponent-move
-      current-player-move)
-    (println "game over")))
+      current-player-move
+      game-over?
+      present-board
+      on-game-over)
+    (on-game-over board)))
 
 (defn -main "Play the Game"
   []
@@ -122,4 +125,7 @@
     "X"
     "O"
     #(player-move %1)
-    #(cpu-move %1 "O")))
+    #(cpu-move %1 "O")
+    #(= (game-progress %1) "not-over")
+    #(println (render %1))
+    #(println (game-progress %1))))
