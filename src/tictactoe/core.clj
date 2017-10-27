@@ -96,24 +96,16 @@
   (Integer. (read-line)))
 
 (defn step
-  [board]
-  (println (render board))
-  (if (= (game-progress board) "not-over")
-    (let [new-board (game-board board (player-move) "X")]
-      (step (game-board new-board (cpu-move new-board "O") "O")))
-    (print "game over")))
-
-(defn step
-  [board current-player-piece opponent-piece current-player-move opponent-move game-over? present-board on-game-over]
+  [board current-player-piece opponent-piece current-player-move opponent-move game-not-over? present-board on-game-over]
   (present-board board)
-  (if (game-over? board)
+  (if (game-not-over? board)
     (step
       (game-board board (current-player-move board) current-player-piece)
       opponent-piece
       current-player-piece
       opponent-move
       current-player-move
-      game-over?
+      game-not-over?
       present-board
       on-game-over)
     (on-game-over board)))

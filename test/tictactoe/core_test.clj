@@ -92,3 +92,32 @@
       (=
         (render ["X" "X" "X" "X" "O" "X" "X" "X" "X"])
         "-------------\n| X | X | X |\n-------------\n| X | O | X |\n-------------\n| X | X | X |\n-------------"))))
+
+(deftest step-test
+  (def ^:dynamic *game-spy-state* [])
+  (binding [*game-spy-state* *game-spy-state*]
+    (testing "Full game loop"
+      (step
+        ["" "" "" "" "" "" "" "" ""]
+        "🍋"
+        "🍐"
+        (fn [board] (+ 1 (.indexOf board "")))
+        (fn [board] (+ 1 (.indexOf board "")))
+        (fn [board] (.contains board ""))
+        (fn [board] (set! *game-spy-state* (conj *game-spy-state* board)))
+        (fn [board] (set! *game-spy-state* (conj *game-spy-state* "GAME OVER"))))
+      (is
+        (=
+          *game-spy-state*
+          [
+            ["" "" "" "" "" "" "" "" ""]
+            ["🍋" "" "" "" "" "" "" "" ""]
+            ["🍋" "🍐" "" "" "" "" "" "" ""]
+            ["🍋" "🍐" "🍋" "" "" "" "" "" ""]
+            ["🍋" "🍐" "🍋" "🍐" "" "" "" "" ""]
+            ["🍋" "🍐" "🍋" "🍐" "🍋" "" "" "" ""]
+            ["🍋" "🍐" "🍋" "🍐" "🍋" "🍐" "" "" ""]
+            ["🍋" "🍐" "🍋" "🍐" "🍋" "🍐" "🍋" "" ""]
+            ["🍋" "🍐" "🍋" "🍐" "🍋" "🍐" "🍋" "🍐" ""]
+            ["🍋" "🍐" "🍋" "🍐" "🍋" "🍐" "🍋" "🍐" "🍋"]
+            "GAME OVER"])))))
