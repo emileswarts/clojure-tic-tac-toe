@@ -95,9 +95,14 @@
   [board]
   (Integer. (read-line)))
 
+(defprotocol TicTacToePresenter
+  (render-board [this board])
+  (render-game-over [this board])
+  (get-state [this]))
+
 (defn step
-  [board current-player-piece opponent-piece current-player-move opponent-move game-not-over? present-board on-game-over]
-  (present-board board)
+  [board current-player-piece opponent-piece current-player-move opponent-move game-not-over? presenter]
+  (render-board presenter board)
   (if (game-not-over? board)
     (step
       (game-board board (current-player-move board) current-player-piece)
@@ -106,9 +111,8 @@
       opponent-move
       current-player-move
       game-not-over?
-      present-board
-      on-game-over)
-    (on-game-over board)))
+      presenter)
+    (render-game-over presenter board)))
 
 (defn -main "Play the Game"
   []
