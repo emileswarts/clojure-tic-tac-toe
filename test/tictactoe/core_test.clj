@@ -55,8 +55,8 @@
   (testing "Winning when in danger of losing"
     (is (= (cpu-move [
                       "X" "X" ""
-                      "" "" "O"
-                      "" "" ""] "O") 3)))
+                      "" "" ""
+                      "O" "" ""] "O") 3)))
 
   (testing "Setting up some great opportunities with a corner move"
     (is (= (cpu-move ["X" "" "" "" "O" "" "" "" ""] "O") 9)))

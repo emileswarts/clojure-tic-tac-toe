@@ -97,7 +97,8 @@
 
 (defprotocol TicTacToePresenter
   (render-board [this board])
-  (render-game-over [this board]))
+  (render-game-over [this board])
+  (get-state [this]))
 
 (defn step
   [board current-player-piece opponent-piece current-player-move opponent-move game-not-over? presenter]
@@ -117,7 +118,8 @@
   []
   TicTacToePresenter
   (render-board [this board] (println (render board)))
-  (render-game-over [this board] (println (render board))))
+  (render-game-over [this board] (println (render board)))
+  (get-state [this] nil))
 
 (defn -main "Play the Game"
   []
