@@ -97,8 +97,7 @@
 
 (defprotocol TicTacToePresenter
   (render-board [this board])
-  (render-game-over [this board])
-  (get-state [this]))
+  (render-game-over [this board]))
 
 (defn step
   [board current-player-piece opponent-piece current-player-move opponent-move game-not-over? presenter]
@@ -114,6 +113,12 @@
       presenter)
     (render-game-over presenter board)))
 
+(deftype BoardPresenter
+  []
+  TicTacToePresenter
+  (render-board [this board] (println (render board)))
+  (render-game-over [this board] (println (render board))))
+
 (defn -main "Play the Game"
   []
   (step
@@ -123,5 +128,4 @@
     #(player-move %1)
     #(cpu-move %1 "O")
     #(= (game-progress %1) "not-over")
-    #(println (render %1))
-    #(println (game-progress %1))))
+    (BoardPresenter.)))
