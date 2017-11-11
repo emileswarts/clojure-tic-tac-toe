@@ -199,7 +199,7 @@
   [^{:volatile-mutable true} game-spy-state]
   TicTacToePresenter
   (render-board [this board] (set! game-spy-state (conj game-spy-state board)))
-  (render-game-over [this board] (set! game-spy-state (conj game-spy-state "GAME OVER")))
+  (game-over [this board] (set! game-spy-state (conj game-spy-state "GAME OVER")))
   (get-state [this] game-spy-state))
 
 (deftest step-test
