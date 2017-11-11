@@ -37,7 +37,7 @@
   (cond
     (winning-board? board "X") "X Wins"
     (winning-board? board "O") "O Wins"
-    (some clojure.string/blank? board) "not-over"
+    (some empty? board) "not-over"
     :else "draw"))
 
 (defn valid-moves [board] (filter #(= (get board %1) "") (take 9 (range))))
