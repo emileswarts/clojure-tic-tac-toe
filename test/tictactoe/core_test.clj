@@ -103,7 +103,7 @@
                       "O" "" ""] "O") 2)))
 
   (testing "player could win"
-    (is (= (player-would-win? [
+    (is (= (winning-move? [
                       "X" "X" ""
                       "" "" ""
                       "O" "" ""] 2 "X") true))))
