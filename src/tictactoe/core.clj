@@ -1,18 +1,17 @@
 (ns tictactoe.core
   (use [clojure.string :only (join)]))
 
-(defn- opponent
+(defn opponent
   [current-player]
   (cond
-    "X" "O"
-    "O" "X"))
+    (= current-player "X") "O"
+    :else "X"))
 
 (defn game-board
-  ([board move mark] (assoc board (- move 1) mark))
+  ([board move mark] (assoc board move mark))
   ([] ["" "" "" "" "" "" "" "" ""]))
 
-(def winning-indexes [
-                      [0 1 2]
+(def winning-indexes [[0 1 2]
                       [3 4 5]
                       [6 7 8]
                       [0 4 8]
@@ -21,19 +20,9 @@
                       [1 4 7]
                       [2 4 6]])
 
-(defn- box
-  [cell]
-  (str
-    " "
-    (cond (= cell "") " " :else cell)
-    " |"))
+(defn- box [cell] (str " " (cond (= cell "") " " :else cell) " |"))
 
-(defn row
-  [cells]
-  (str
-    "-------------\n|"
-    (join "" (map #(box %1) cells))
-    "\n"))
+(defn row [cells] (str "-------------\n|" (join "" (map #(box %1) cells)) "\n"))
 
 (defn render
   [board]
@@ -60,36 +49,24 @@
 
 (defn valid-moves
   [board]
-  (filter #(= (get board (- %1 1)) "")
-    [1 2 3 4 5 6 7 8 9]))
+  (filter #(= (get board %1) "")
+    [0 1 2 3 4 5 6 7 8]))
 
 (defn player-would-win?
   [board move player]
   (winning-board? (game-board board move player) player))
 
-(defn possible-game-weightings
-  [best-case-fn player board move depth is-maximising-player]
-  (map
-    #(best-case-fn (opponent player) %1 (game-board board move player) (not is-maximising-player) (+ 1 depth))
-    (valid-moves (game-board board move player))))
-
 (defn best-case
   [player move board is-maximising-player depth]
   (cond
-    (and (player-would-win? board move player) is-maximising-player) (- 10 depth)
-    (and (player-would-win? board move player) (not is-maximising-player)) (- depth 10)
-    (= [] (valid-moves board)) 0
-    :else
-      (let [weightings (possible-game-weightings best-case player board move depth is-maximising-player)]
-        (cond
-          is-maximising-player (apply min weightings)
-          :else (apply max weightings)))))
+    (player-would-win? board move player) 1
+    (player-would-win? board move (opponent player)) 1
+    :else 0))
 
 (defn cpu-move
-  [board current-player]
+  [board player]
   (apply max-key
-    #(best-case current-player %1 board true 0)
-    (valid-moves board)))
+    #(best-case player %1 board true 0) (valid-moves board)))
 
 (defn player-move
   [board]
