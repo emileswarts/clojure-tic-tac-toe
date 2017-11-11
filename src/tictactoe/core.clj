@@ -69,7 +69,7 @@
   [board player opponent player-move opponent-move in-progress? presenter]
   (render-board presenter board)
   (if (in-progress? board)
-    (step
+    (recur
       (game-board board (player-move board) player)
       opponent
       player
