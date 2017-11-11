@@ -73,8 +73,13 @@
   (testing "Setting up some great opportunities with a corner move"
     (is (= (cpu-move ["X" "" "" "" "O" "" "" "" ""] "O") 8)))
 
+  (testing "empty board?"
+    (is (= (empty-board? ["" "" "" "" "" "" "" "" ""]) true)))
+
   (testing "Setting up some great opportunities with a centre move"
-    (is (= (cpu-move ["" "" "" "" "" "" "" "" ""] "O") 5)))
+    (is (= (cpu-move ["" "" ""
+                      "" "" ""
+                      "" "" ""] "O") 4)))
 
 (deftest valid-moves-test
   (testing "Valid moves on an empty board"

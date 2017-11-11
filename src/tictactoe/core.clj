@@ -1,11 +1,16 @@
 (ns tictactoe.core
   (use [clojure.string :only (join)]))
 
+(def center-cell-index 4)
 (defn opponent
   [current-player]
   (cond
     (= current-player "X") "O"
     :else "X"))
+
+(defn empty-board?
+  [board]
+  (every? empty? board))
 
 (defn game-board
   ([board move mark] (assoc board move mark))
@@ -65,12 +70,12 @@
 
 (defn cpu-move
   [board player]
-  (apply max-key
-    #(best-case player %1 board true 0) (valid-moves board)))
+  (if (empty-board? board)
+    center-cell-index
+    (apply max-key #(best-case player %1 board true 0) (valid-moves board))))
 
-(defn player-move
-  [board]
-  (Integer. (read-line)))
+
+(defn player-move [board] (Integer. (read-line)))
 
 (defprotocol TicTacToePresenter
   (render-board [this board])
