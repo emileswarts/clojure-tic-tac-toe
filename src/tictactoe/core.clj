@@ -1,5 +1,4 @@
-(ns tictactoe.core
-  (use [clojure.string :only (join)]))
+(ns tictactoe.core (use [clojure.string :only (join)]))
 
 (def center-cell-index 4)
 
@@ -42,14 +41,10 @@
 
 (defn valid-moves [board] (filter #(= (get board %1) "") (take 9 (range))))
 
-(defn winning-move?
-  [board move player]
-  (winning-board? (game-board board move player) player))
+(defn winning-move? [board move player] (winning-board? (game-board board move player) player))
 
 (defn best-case
   [player move board depth minimising winning-player]
-  ; (println depth)
-  ; (println (render board))
   (cond
     (winning-board? (game-board board move player) winning-player) (- 10 depth)
     (winning-board? (game-board board move player) (opponent winning-player)) (- depth 10)
@@ -58,14 +53,10 @@
     (apply (cond minimising min :else max)
       (map
         #(best-case (opponent player) %1 (game-board board move player) (+ 1 depth) (not minimising) winning-player)
-        (valid-moves (game-board board move player))
-      )
-    )))
-
+        (valid-moves (game-board board move player))))))
 
 (defn cpu-move
   [board player]
-  (println (map #(best-case player %1 board 0 true player) (valid-moves board)))
   (if (empty-board? board) center-cell-index
     (apply max-key #(best-case player %1 board 0 true player) (valid-moves board))))
 
@@ -81,13 +72,7 @@
   (render-board presenter board)
   (if (in-progress? board)
     (recur
-      (game-board board (player-move board) player)
-      opponent
-      player
-      opponent-move
-      player-move
-      in-progress?
-      presenter)
+      (game-board board (player-move board) player) opponent player opponent-move player-move in-progress?  presenter)
     (game-over presenter board)))
 
 (deftype BoardPresenter
@@ -99,11 +84,4 @@
 
 (defn -main "Play the Game"
   []
-  (step
-    (game-board)
-    "X"
-    "O"
-    #(player-move %1)
-    #(cpu-move %1 "O")
-    #(= (game-progress %1) "not-over")
-    (BoardPresenter.)))
+  (step (game-board) "X" "O" #(player-move %1) #(cpu-move %1 "O") #(= (game-progress %1) "not-over") (BoardPresenter.)))
