@@ -47,16 +47,27 @@
   (winning-board? (game-board board move player) player))
 
 (defn best-case
-  [player move board]
+  [player move board depth minimising winning-player]
+  ; (println depth)
+  ; (println (render board))
   (cond
-    (winning-move? board move player) 1
-    (winning-move? board move (opponent player)) 1
-    :else 0))
+    (winning-board? (game-board board move player) winning-player) (- 10 depth)
+    (winning-board? (game-board board move player) (opponent winning-player)) (- depth 10)
+    (= [] (valid-moves (game-board board move player))) 0
+    :else
+    (apply (cond minimising min :else max)
+      (map
+        #(best-case (opponent player) %1 (game-board board move player) (+ 1 depth) (not minimising) winning-player)
+        (valid-moves (game-board board move player))
+      )
+    )))
+
 
 (defn cpu-move
   [board player]
+  (println (map #(best-case player %1 board 0 true player) (valid-moves board)))
   (if (empty-board? board) center-cell-index
-    (apply max-key #(best-case player %1 board) (valid-moves board))))
+    (apply max-key #(best-case player %1 board 0 true player) (valid-moves board))))
 
 (defn player-move [board] (Integer. (read-line)))
 
