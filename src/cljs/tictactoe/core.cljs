@@ -1,9 +1,5 @@
-(ns tictactoe.core
-  (:require [clojure.string]))
+(ns tictactoe.core)
 
- (require 'cljs.build.api)
-
-  (cljs.build.api/build "src" {:output-to "out/main.js"})
 
 (def center-cell-index 4)
 
@@ -46,8 +42,6 @@
 
 (defn valid-moves [board] (filter #(= (get board %1) "") (take 9 (range))))
 
-(defn winning-move? [board move player] (winning-board? (game-board board move player) player))
-
 (defn best-case
   [player move board depth minimising winning-player]
   (cond
@@ -65,29 +59,11 @@
   (if (empty-board? board) center-cell-index
     (apply max-key #(best-case player %1 board 0 true player) (valid-moves board))))
 
-(defn player-move [board] (Integer. (read-line)))
 
-(defprotocol TicTacToePresenter
-  (render-board [this board])
-  (game-over [this board])
-  (get-state [this]))
 
-(defn step
-  [board player opponent player-move opponent-move in-progress? presenter]
-  (render-board presenter board)
-  (if (in-progress? board)
-    (recur
-      (game-board board (player-move board) player) opponent player opponent-move player-move in-progress?  presenter)
-    (game-over presenter board)))
+(enable-console-print!)
 
-(deftype BoardPresenter
-  []
-  TicTacToePresenter
-  (render-board [this board] (println (render board)))
-  (game-over [this board] (println (render board)))
-  (get-state [this] nil))
 
-(defn -main "Play the Game"
-  []
-  (.write js/document "<h1>Hello Browser</h1>")
-)
+(defn -main "Play the Game" [] (.alert js/document "<h1>Hello Browser</h1>"))
+
+(println ( valid-moves [ "" "" "" "" "" "" "" "" "" ] ) )

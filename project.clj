@@ -1,7 +1,8 @@
 (defproject tictactoe "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
   :main tictactoe.core
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.8.0"]])
+  :cljsbuild {
+    :builds [{:source-paths ["src/cljs/tictactoe"]
+              :compiler {:output-to "resources/public/core.js"}}]}
+  :plugins [[lein-cljsbuild "1.0.3"]]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [org.clojure/clojurescript "0.0-2411"]])
