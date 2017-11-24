@@ -41,8 +41,6 @@
 
 (defn valid-moves [board] (filter #(= (get board %1) "") (take 9 (range))))
 
-(defn winning-move? [board move player] (winning-board? (game-board board move player) player))
-
 (defn best-case
   [player move board depth minimising winning-player]
   (cond
