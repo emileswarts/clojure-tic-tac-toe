@@ -100,13 +100,8 @@
     (is (= (cpu-move [
                       "X" "X" ""
                       "" "" ""
-                      "O" "" ""] "O") 2)))
+                      "O" "" ""] "O") 2))))
 
-  (testing "player could win"
-    (is (= (winning-move? [
-                      "X" "X" ""
-                      "" "" ""
-                      "O" "" ""] 2 "X") true))))
 
   (testing "Setting up some great opportunities with a corner move"
     (is (= (cpu-move ["X" "" ""
