@@ -1,12 +1,41 @@
 <!DOCTYPE html>
 <html>
-    <head><title>ClojureScript Hello Browser</title></head>
-    <body>
+    <head>
+      <title>ClojureScript Hello Browser</title>
       <script type="text/javascript" src="out/goog/base.js"></script>
       <script type="text/javascript" src="resources/public/core.js"></script>
       <script type="text/javascript">
         goog.require("tictactoe.core");
         // Note the underscore "_"!
       </script>
+      <script
+src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+      <script type="text/javascript" src="js/index.js"></script>
+      <style>
+        .cell {
+           align-self: stretch;
+        }
+        .cell input {
+          text-align: center;
+        }
+      </style>
+    </head>
+    <body>
+      <div style="display: grid">
+        <input class="cell" id="cell0" data-foobar="0" style="grid-column: 1 / 2; grid-row: 1 / 2" />
+        <input class="cell" id="cell1" data-foobar="1" style="grid-column: 2 / 3; grid-row: 1 / 2" />
+        <input class="cell" id="cell2" data-foobar="2" style="grid-column: 3 / 4; grid-row: 1 / 2" />
+        <input class="cell" id="cell3" data-foobar="3" style="grid-column: 1 / 2; grid-row: 2 / 3" />
+        <input class="cell" id="cell4" data-foobar="4" style="grid-column: 2 / 3; grid-row: 2 / 3" />
+        <input class="cell" id="cell5" data-foobar="5" style="grid-column: 3 / 4; grid-row: 2 / 3" />
+        <input class="cell" id="cell6" data-foobar="6" style="grid-column: 1 / 2; grid-row: 3 / 4" />
+        <input class="cell" id="cell7" data-foobar="7" style="grid-column: 2 / 3; grid-row: 3 / 4" />
+        <input class="cell" id="cell8" data-foobar="8" style="grid-column: 3 / 4; grid-row: 3 / 4" />
+
+      </div>
+      <div id="status">
+      </div>
     </body>
 </html>
