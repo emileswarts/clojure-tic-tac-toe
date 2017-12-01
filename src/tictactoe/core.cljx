@@ -27,9 +27,9 @@
 (defn winning-board?
   [board player]
   (some true? (map #(and
-                        (= player (get board (get %1 0)))
-                        (= player (get board (get %1 1)))
-                        (= player (get board (get %1 2)))) winning-indexes)))
+                      (= player (get board (get %1 0)))
+                      (= player (get board (get %1 1)))
+                      (= player (get board (get %1 2)))) winning-indexes)))
 
 (defn game-progress
   [board]

@@ -6,13 +6,30 @@
       <script type="text/javascript" src="resources/public/core.js"></script>
       <script type="text/javascript">
         goog.require("tictactoe.core");
-        // Note the underscore "_"!
       </script>
-      <script
-src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
-      <script type="text/javascript" src="js/index.js"></script>
+      <script>
+var whatever = function(position, mark) {
+  document.getElementById('cell' + position).value = mark;
+}
+
+var handleCellClick = function(position) {
+  board = tictactoe.core.game_board(board, position, 'X')
+  renderBoard()
+  if (tictactoe.core.game_progress(board) === 'not-over') {
+    const cpuMove = tictactoe.core.cpu_move(board, 'O')
+    board = tictactoe.core.game_board(board, cpuMove, 'O')
+    renderBoard()
+  }
+  document.getElementById('status').innerHTML = tictactoe.core.game_progress(board)
+}
+
+var renderBoard = function() {
+  tictactoe.core.render(board, whatever)
+}
+
+var board = tictactoe.core.game_board()
+
+</script>
       <style>
         .cell {
            align-self: stretch;
@@ -24,15 +41,15 @@ src="https://code.jquery.com/jquery-3.2.1.min.js"
     </head>
     <body>
       <div style="display: grid">
-        <input class="cell" id="cell0" data-foobar="0" style="grid-column: 1 / 2; grid-row: 1 / 2" />
-        <input class="cell" id="cell1" data-foobar="1" style="grid-column: 2 / 3; grid-row: 1 / 2" />
-        <input class="cell" id="cell2" data-foobar="2" style="grid-column: 3 / 4; grid-row: 1 / 2" />
-        <input class="cell" id="cell3" data-foobar="3" style="grid-column: 1 / 2; grid-row: 2 / 3" />
-        <input class="cell" id="cell4" data-foobar="4" style="grid-column: 2 / 3; grid-row: 2 / 3" />
-        <input class="cell" id="cell5" data-foobar="5" style="grid-column: 3 / 4; grid-row: 2 / 3" />
-        <input class="cell" id="cell6" data-foobar="6" style="grid-column: 1 / 2; grid-row: 3 / 4" />
-        <input class="cell" id="cell7" data-foobar="7" style="grid-column: 2 / 3; grid-row: 3 / 4" />
-        <input class="cell" id="cell8" data-foobar="8" style="grid-column: 3 / 4; grid-row: 3 / 4" />
+        <input class="cell" id="cell0" onClick="handleCellClick(0)" style="grid-column: 1 / 2; grid-row: 1 / 2" />
+        <input class="cell" id="cell1" onClick="handleCellClick(1)" style="grid-column: 2 / 3; grid-row: 1 / 2" />
+        <input class="cell" id="cell2" onClick="handleCellClick(2)" style="grid-column: 3 / 4; grid-row: 1 / 2" />
+        <input class="cell" id="cell3" onClick="handleCellClick(3)" style="grid-column: 1 / 2; grid-row: 2 / 3" />
+        <input class="cell" id="cell4" onClick="handleCellClick(4)" style="grid-column: 2 / 3; grid-row: 2 / 3" />
+        <input class="cell" id="cell5" onClick="handleCellClick(5)" style="grid-column: 3 / 4; grid-row: 2 / 3" />
+        <input class="cell" id="cell6" onClick="handleCellClick(6)" style="grid-column: 1 / 2; grid-row: 3 / 4" />
+        <input class="cell" id="cell7" onClick="handleCellClick(7)" style="grid-column: 2 / 3; grid-row: 3 / 4" />
+        <input class="cell" id="cell8" onClick="handleCellClick(8)" style="grid-column: 3 / 4; grid-row: 3 / 4" />
 
       </div>
       <div id="status">

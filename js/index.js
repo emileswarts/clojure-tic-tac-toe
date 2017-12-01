@@ -1,10 +1,9 @@
 
-const renderCell = (position, mark) => {
+const renderCell = function(position, mark) {
   document.getElementById('cell' + position).value = mark;
 }
 
-let board
-const handleCellClick = (position) => {
+const handleCellClick = function(position) {
   board = tictactoe.core.game_board(board, position, 'X')
   renderBoard()
   if (tictactoe.core.game_progress(board) === 'not-over') {
@@ -15,15 +14,8 @@ const handleCellClick = (position) => {
   document.getElementById('status').innerHTML = tictactoe.core.game_progress(board)
 }
 
-const renderBoard = () => {
+const renderBoard = function() {
   tictactoe.core.render(board, renderCell)
 }
 
-$(function() {
-  board = tictactoe.core.game_board()
-  $('.cell').click(
-    event => handleCellClick(
-      parseInt($(event.currentTarget).data('foobar'))
-    )
-  )
-});
+let board = tictactoe.core.game_board()
