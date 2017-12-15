@@ -223,3 +223,31 @@
             ["🍋" "🍐" "🍋" "🍐" "🍋" "🍐" "🍋" "🍐" ""]
             ["🍋" "🍐" "🍋" "🍐" "🍋" "🍐" "🍋" "🍐" "🍋"]
             "GAME OVER"])))))
+
+; No negative index moves
+; No out of bounds index moves
+; No moves on existing spots
+; Make private methods
+; remove duplication
+
+(deftest valid-move-test
+  (testing "Negative move"
+    (is (= (valid-move? -1 []) false)))
+  (testing "Positive move"
+    (is (= (valid-move? 1 (game-board)) true)))
+  (testing "Zero move"
+    (is (= (valid-move? 0 (game-board)) true)))
+  (testing "Another positive move"
+    (is (= (valid-move? 2 (game-board)) true)))
+
+  (testing "Another positive move"
+    (is (= (valid-move? 9 []) false)))
+
+  (testing "move is already taken"
+    (let [board ["X" "" "" "" "" "" "" "" ""]]
+    (is (= (valid-move? 0 board) false))))
+
+  (testing "move is not already taken"
+    (let [board ["X" "" "" "" "" "" "" "" ""]]
+    (is (= (valid-move? 1 board) true))))
+)

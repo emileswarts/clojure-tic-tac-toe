@@ -65,6 +65,10 @@
   (game-over [this board])
   (get-state [this]))
 
+(defn valid-move?
+  [move board]
+  (and (and (<= 0 move) (> 8 move)) (= (get board move) "")))
+
 (defn step
   [board player opponent player-move opponent-move in-progress? presenter]
   (render-board presenter board)
@@ -82,4 +86,13 @@
 
 (defn -main "Play the Game"
   []
-  (step (game-board) "X" "O" #(player-move %1) #(cpu-move %1 "O") #(= (game-progress %1) "not-over") (BoardPresenter.)))
+  (step
+    (game-board)
+    "X"
+    "O"
+
+    #(player-move %1)
+    #(cpu-move %1 "O")
+    #(= (game-progress %1)
+        "not-over")
+    (BoardPresenter.)))
