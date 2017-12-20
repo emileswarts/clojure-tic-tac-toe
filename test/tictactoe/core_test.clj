@@ -224,6 +224,22 @@
             ["🍋" "🍐" "🍋" "🍐" "🍋" "🍐" "🍋" "🍐" "🍋"]
             "GAME OVER"])))))
 
+  ; (testing "Full game loop"
+  ;   (let [spy-presenter (SpyPresenter. [])]
+  ;     (step
+  ;       ["🍋" "" "" "" "" "" "" "" ""]
+  ;       "🍋"
+  ;       "🍐"
+  ;       (fn [board] 0)
+  ;       (fn [board] 0)
+  ;       (fn [board] (.contains board ""))
+  ;       spy-presenter)
+
+  ;     (is
+  ;       (= (get-state spy-presenter)
+  ;         [["🍋" "" "" "" "" "" "" "" ""]
+  ;           "MOVE TAKEN"])))))
+
 ; No negative index moves
 ; No out of bounds index moves
 ; No moves on existing spots

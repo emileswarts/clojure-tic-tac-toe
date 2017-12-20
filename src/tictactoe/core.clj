@@ -71,11 +71,15 @@
 
 (defn step
   [board player opponent player-move opponent-move in-progress? presenter]
-  (render-board presenter board)
-  (if (in-progress? board)
-    (recur
-      (game-board board (player-move board) player) opponent player opponent-move player-move in-progress?  presenter)
-    (game-over presenter board)))
+  (println (valid-move? (player-move board) board))
+  (cond (not (valid-move? (player-move board) board))
+        "we are hre now"
+        :else
+        ((render-board presenter board)
+        (if (in-progress? board)
+          (step
+            (game-board board (player-move board) player) opponent player opponent-move player-move in-progress?  presenter)
+          (game-over presenter board)))))
 
 (deftype BoardPresenter
   []
